@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from . models import Profile
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your views here.
 
@@ -30,7 +31,7 @@ def myLogin(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 auth.login(request, user)
-                return redirect('home')
+                return redirect('createprofile')
     
     context = {'loginform': form}
 
@@ -58,3 +59,15 @@ def profile(request, user):
         'profile': profile
     }
     return render(request, 'profile.html', context)
+
+def createProfile(request):
+    if request.method == 'POST':
+        user = request.user
+        name = request.POST['name']
+        about = request.POST['about']
+        profilepic = request.FILES['profilePic']
+        DOB = request.POST['DOB']
+        Profile.objects.create(user=user, name=name, about=about, profilePic=profilepic, DOB=DOB)
+        return redirect(reverse('profile', kwargs={'user': user}))
+    else:
+        return render(request, 'createProfile.html')

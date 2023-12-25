@@ -8,7 +8,11 @@
 <body>
     Dashboard
     <a href="{% url 'mylogout' %}">Logout</a>
+    {% if user and user.profile.user %}
     <a href="{% url 'profile' user.profile.user %}">Profile Page</a>
-    <a href="{% url 'createprofile' %}"></a>
+    {% else %}
+    <p>We don't have your profile info yet.</p> 
+    {% endif %}
+    <a href="{% url 'createprofile' %}">Add/Edit your Profile</a>
 </body>
 </html>

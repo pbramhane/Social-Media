@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .forms import CreateUserForm, LoginForm
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
@@ -31,7 +31,7 @@ def myLogin(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 auth.login(request, user)
-                return redirect('createprofile')
+                return redirect('home')
     
     context = {'loginform': form}
 
@@ -61,13 +61,18 @@ def profile(request, user):
     return render(request, 'profile.html', context)
 
 def createProfile(request):
-    if request.method == 'POST':
-        user = request.user
-        name = request.POST['name']
-        about = request.POST['about']
-        profilepic = request.FILES['profilePic']
-        DOB = request.POST['DOB']
-        Profile.objects.create(user=user, name=name, about=about, profilePic=profilepic, DOB=DOB)
-        return redirect(reverse('profile', kwargs={'user': user}))
+    user = request.user
+    profile_exists = Profile.objects.filter(user=user).exists()
+    if not profile_exists:
+        if request.method == 'POST':
+            user = request.user
+            name = request.POST['name']
+            about = request.POST['about']
+            profilepic = request.FILES['profilePic']
+            DOB = request.POST['DOB']
+            Profile.objects.create(user=user, name=name, about=about, profilePic=profilepic, DOB=DOB)
+            return redirect(reverse('profile', kwargs={'user': user}))
+        else:
+            return render(request, 'createProfile.html')
     else:
-        return render(request, 'createProfile.html')
+        return HttpResponse('UserProfile already exists')

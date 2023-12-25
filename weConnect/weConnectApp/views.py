@@ -46,8 +46,11 @@ def myLogout(request):
     return redirect('mylogin')
 
 
-def profile(request, pk):
-    profile = Profile.objects.get(pk=pk)
+def profile(request, user):
+    profile_object = User.objects.get(username=user)
+    profile = Profile.objects.get(user=profile_object)
+    user = profile.user
+    
     user = profile.user
 
     context = {

@@ -3,6 +3,8 @@ from .forms import CreateUserForm, LoginForm
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from . models import Profile
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -42,3 +44,14 @@ def home(request):
 def myLogout(request):
     auth.logout(request)
     return redirect('mylogin')
+
+
+def profile(request, pk):
+    profile = Profile.objects.get(pk=pk)
+    user = profile.user
+
+    context = {
+        'user': user,
+        'profile': profile
+    }
+    return render(request, 'profile.html', context)

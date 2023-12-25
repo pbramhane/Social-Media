@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Additional custom styles for the post */
+        .post-container {
+            margin-bottom: 20px;
+        }
+        .post-image {
+            max-width: 100%;
+            height: auto;
+        }
+        .like-button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    Dashboard <br><br><br>
+    
+    
+    {% if user and user.profile %}
+    <a href="{% url 'profile' user.profile.user %}">Profile Page</a><br>
+    {% else %}
+    <p>We don't have your profile info yet.</p> 
+    {% endif %}
+    <a href="{% url 'createprofile' %}">Add/Edit Profile</a><br>
+    <a href="{% url 'addpost' %}">Add Post</a><br>
+
+
+    {% for post in posts %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card post-container">
+                    <div class="card-body">
+                        <h5 class="card-title">Username: {{ post.user }}</h5>
+                        <p class="card-text">Date Added: {{ post.created_at }}</p>
+                        <p class="card-text">Caption: {{ post.caption }}</p>
+                        <img class="post-image" src="{{ post.image.url }}" alt="Post Image" height="200" width="100">
+                        <div class="mt-3">
+                            <button class="btn btn-primary like-button"><a href="/likepost?post_id={{post.id}}">Like</a></button>
+                            <span class="ms-2">Likes: {{ post.no_of_likes}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    <br><br><br>
+    <a href="{% url 'mylogout' %}">Logout</a><br>
+    <br><br><br><br><br>
+</body>
+</html>

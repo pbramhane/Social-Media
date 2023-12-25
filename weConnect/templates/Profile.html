@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile Form</title>
+</head>
+<body>
+    Username : {{ user }} <br>
+    Name : {{ profile.name }} <br>
+    About : {{ profile.about }} <br>
+    Profile Pic: <img src="{{ profile.profilePic.url }}" alt="DP" height="90px" width="90px"> <br>
+    Dat of Birth: {{ profile.DOB }}
+    <br><br><br><br>
+    <a href="{% url 'mylogout' %}">Logout</a> <br><br>
+
+    <a href="{% url 'editprofile' user.profile.user %}">Edit Profile</a>
+    <a href="{% url 'addpost' %}">Add Post</a>
+    <br>
+    <a href="{% url 'home' %}">Home</a>
+</body>
+</html>

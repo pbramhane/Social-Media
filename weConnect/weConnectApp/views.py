@@ -86,6 +86,8 @@ def createProfile(request):
     else:
         return redirect('profile', user=user)
 
+
+@login_required(login_url='mylogin')
 def editProfile(request, user):
         user = request.user
         profile = get_object_or_404(Profile, user=user)
@@ -111,7 +113,7 @@ def editProfile(request, user):
         return render(request, 'editProfile.html', {'profile': profile})
 
 
-
+@login_required(login_url='mylogin')
 def addPost(request):
     if request.method == 'POST':
         user = request.user

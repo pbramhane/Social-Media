@@ -12,9 +12,13 @@
     <form action="" method="post" class="form-control">
         {% csrf_token %}
         {{loginform.as_p}}
-        <input type="submit" value="Register">
+        <input type="submit" value="Login">
     </form>   
+</div> <br><br><br><br><br><br><br>
+<div>
+    New User?  <a href="{% url 'register' %}">Create an Account!</a>
 </div>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

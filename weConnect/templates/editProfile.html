@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+</head>
+<body>
+    <h1>Edit Profile</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" value="{{ profile.name }}"><br><br>
+
+        <label for="about">About:</label><br>
+        <textarea id="about" name="about" rows="4" cols="50">{{ profile.about }}</textarea><br><br>
+
+        <label for="profilePic">Profile Picture:</label><br>
+        <input type="file" id="profilePic" name="profilePic"><br><br>
+
+        <label for="DOB">Date of Birth:</label><br>
+        <input type="date" id="DOB" name="DOB" value="{{ profile.DOB }}"><br><br>
+
+        <input type="submit" value="Save">
+    </form>
+    
+
+</body>
+</html>

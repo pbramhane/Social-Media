@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from .forms import CreateUserForm, LoginForm
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
@@ -42,11 +42,13 @@ def home(request):
     return render(request, 'home.html')
 
 
+@login_required(login_url='mylogin')
 def myLogout(request):
     auth.logout(request)
     return redirect('mylogin')
 
 
+@login_required(login_url='mylogin')
 def profile(request, user):
     profile_object = User.objects.get(username=user)
     profile = Profile.objects.get(user=profile_object)
@@ -60,6 +62,8 @@ def profile(request, user):
     }
     return render(request, 'profile.html', context)
 
+
+@login_required(login_url='mylogin')
 def createProfile(request):
     user = request.user
     profile_exists = Profile.objects.filter(user=user).exists()
@@ -75,4 +79,28 @@ def createProfile(request):
         else:
             return render(request, 'createProfile.html')
     else:
-        return HttpResponse('UserProfile already exists')
+        return redirect('profile', user=user)
+
+def editProfile(request, user):
+        user = request.user
+        profile = get_object_or_404(Profile, user=user)
+
+        if request.method == 'POST':
+            name = request.POST['name']
+            about = request.POST['about']
+            profilePic = request.FILES.get('profilePic')
+            DOB = request.POST['DOB']
+
+            if name:
+                profile.name = name
+            if about:
+                profile.about = about
+            if profilePic:
+                profile.profilePic = profilePic
+            if DOB:
+                profile.DOB = DOB
+
+            profile.save()
+            return redirect('profile', user=user)
+
+        return render(request, 'editProfile.html', {'profile': profile})

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Post</title>
+</head>
+<body>
+    <h1>Add Post</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="image">Image:</label><br>
+        <input type="file" id="image" name="image"><br><br>
+
+        <label for="caption">Caption:</label><br>
+        <textarea id="caption" name="caption" rows="4" cols="50"></textarea><br><br>
+
+        <input type="submit" value="Add Post">
+    </form>
+</body>
+</html>

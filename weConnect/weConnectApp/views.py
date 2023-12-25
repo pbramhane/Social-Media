@@ -4,6 +4,7 @@ from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from . models import Profile
+from .models import Post
 from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -39,7 +40,12 @@ def myLogin(request):
 
 @login_required(login_url='mylogin')
 def home(request):
-    return render(request, 'home.html')
+    posts = Post.objects.all()
+    context = {
+        'posts': posts,
+    }
+
+    return render(request, 'home.html', context)
 
 
 @login_required(login_url='mylogin')
@@ -104,3 +110,15 @@ def editProfile(request, user):
             return redirect('profile', user=user)
 
         return render(request, 'editProfile.html', {'profile': profile})
+
+
+
+def addPost(request):
+    if request.method == 'POST':
+        user = request.user
+        image = request.FILES['image']
+        caption = request.POST['caption']
+        Post.objects.create(user=user, image=image, caption=caption)
+        return redirect('home')
+    else:
+        return render(request, 'addPost.html')

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Post, LikePost
+from .models import Profile, Post, LikePost, FollowersCount
 
 # Register your models here.
 
@@ -15,3 +15,4 @@ class LikePostAdmin(admin.ModelAdmin):
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(LikePost, LikePostAdmin)
+admin.site.register(FollowersCount)

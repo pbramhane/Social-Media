@@ -8,7 +8,7 @@
     Username : {{ user }} <br>
     Name : {{ profile.name }} <br>
     About : {{ profile.about }} <br>
-    Profile Pic: {{ url "profile.profilePic" }} <br>
+    Profile Pic: <img src="{{ profile.profilePic.url }}" alt="DP" height="90px" width="90px"> <br>
     Dat of Birth: {{ profile.DOB }}
 </body>
 </html>

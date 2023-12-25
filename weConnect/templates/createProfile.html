@@ -24,7 +24,10 @@
     </form>
     <br><br><br><br>
 
-    <a href="{% url 'editProfile' user.profile.user %}">Edit Profile</a> <br><br>
+    {% if user and user.profile.user %}
+
+    <a href="{% url 'editprofile' user.profile.user %}">Edit Profile</a> <br><br>
+    {% endif%}
 
     <a href="{% url 'mylogout' %}">Logout</a>
 </body>

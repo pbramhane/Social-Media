@@ -22,7 +22,7 @@
     Dashboard <br><br><br>
     
     
-    {% if user and user.profile.user %}
+    {% if user and user.profile %}
     <a href="{% url 'profile' user.profile.user %}">Profile Page</a><br>
     {% else %}
     <p>We don't have your profile info yet.</p> 
@@ -42,8 +42,8 @@
                         <p class="card-text">Caption: {{ post.caption }}</p>
                         <img class="post-image" src="{{ post.image.url }}" alt="Post Image" height="200" width="100">
                         <div class="mt-3">
-                            <button class="btn btn-primary like-button">Like</button>
-                            <span class="ms-2">Likes: 100</span>
+                            <button class="btn btn-primary like-button"><a href="/likepost?post_id={{post.id}}">Like</a></button>
+                            <span class="ms-2">Likes: {{ post.no_of_likes}}</span>
                         </div>
                     </div>
                 </div>

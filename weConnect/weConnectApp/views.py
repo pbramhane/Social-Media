@@ -3,7 +3,7 @@ from .forms import CreateUserForm, LoginForm
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from . models import Profile, Post, LikePost
+from . models import Profile, Post, LikePost, FollowersCount
 from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -58,12 +58,19 @@ def profile(request, user):
     profile_object = User.objects.get(username=user)
     profile = Profile.objects.get(user=profile_object)
     user = profile.user
+    userposts = Post.objects.filter(user=user)
+    numberOfPosts = len(userposts)
     
     user = profile.user
 
+    
+
     context = {
         'user': user,
-        'profile': profile
+        'profile_object': profile_object,
+        'profile': profile,
+        'userposts' : userposts,
+        'numberOfPosts': numberOfPosts,
     }
     return render(request, 'profile.html', context)
 
@@ -144,4 +151,22 @@ def like_post(request):
         like_filter.delete()
         post.no_of_likes = post.no_of_likes-1
         post.save()
+        return redirect('home')
+    
+
+@login_required(login_url='mylogin')
+def follow(request):
+    if request.method == 'POST':
+        follower = request.POST['follower']
+        user = request.POST['user']
+
+        if FollowersCount.objects.filter(follower=follower, user=user).first():
+            delete_follower = FollowersCount.objects.get(follower=follower, user=user)
+            delete_follower.delete()
+            return redirect('profile', user=request.user)
+        else:
+            new_follower = FollowersCount.objects.create(follower=follower, user=user)
+            new_follower.save()
+            return redirect('profile', user=request.user)
+    else:
         return redirect('home')

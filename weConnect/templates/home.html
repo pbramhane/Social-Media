@@ -34,6 +34,19 @@
                 <a href="{% url 'addpost' %}" class="btn btn-primary mb-2">Add Post</a><br>
                 <a href="{% url 'mylogout' %}" class="btn btn-danger mt-5">Logout</a><br>
             </div>
+
+            <h3>Follow Users</h3>
+                <ul>
+                    {% for user in users %}
+                        {% if not user.is_superuser %}
+                            {{ user.username }}
+                            <a href="{% url 'profile' user.id %}" class="btn btn-danger mt-5">{{ user.username }}</a><br><hr>
+                        {% endif %}
+                    {% empty %}
+                        <li>No users found</li>
+                    {% endfor %}
+                </ul>
+
             <div class="col-md-8">
                 {% for post in posts %}
                     <div class="card post-container">

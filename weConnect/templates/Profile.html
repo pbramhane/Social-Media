@@ -15,6 +15,7 @@
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
         }
         .profile-pic {
             max-width: 100px;
@@ -33,10 +34,10 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid px-0"> <!-- Set container-fluid to occupy full width -->
+    <div class="container-fluid px-0">
         <div class="row mx-0">
             <div class="col-md-8 offset-md-2 px-0">
-                <div class="profile-container py-4 px-4">
+                <div class="profile-container">
                     <h3 class="mb-4 text-center">User Profile</h3>
                     <p><strong>Username:</strong> {{ user }}</p>
                     <p><strong>Name:</strong> {{ profile.name }}</p>
@@ -45,6 +46,15 @@
                     <p><strong>Posts:</strong> {{ numberOfPosts }}</p>
                     <img src="{{ profile.profilePic.url }}" alt="Profile Picture" class="profile-pic mx-auto d-block">
                     <hr>
+                    {% if not is_current_user and not is_following_self %}
+                        {% if not is_following %}
+                            <!-- Updated URL for follow action -->
+                            <a href="{% url 'follow' profile_object.pk %}" class="btn btn-primary">Follow</a>
+                        {% else %}
+                            <!-- Updated URL for unfollow action -->
+                            <a href="{% url 'unfollow' profile_object.pk %}" class="btn btn-danger">Unfollow</a>
+                        {% endif %}
+                    {% endif %}
 
                     <h3 class="mb-4 text-center">Posts</h3>
                     {% for post in userposts %}

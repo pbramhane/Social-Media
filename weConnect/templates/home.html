@@ -26,7 +26,7 @@
                 <h3>Home Page</h3>
                 <br>
                 {% if user and user.profile %}
-                    <a href="{% url 'profile' user.profile.user %}" class="btn btn-primary mb-2">Profile Page</a><br>
+                    <a href="{% url 'profile' user.id %}" class="btn btn-primary mb-2">Profile Page</a><br>
                 {% else %}
                     <p>We don't have your profile info yet.</p> 
                 {% endif %}

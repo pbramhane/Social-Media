@@ -54,23 +54,27 @@ def myLogout(request):
 
 
 @login_required(login_url='mylogin')
-def profile(request, user):
-    profile_object = User.objects.get(username=user)
+def profile(request, user_id):
+    profile_object = get_object_or_404(User, pk=user_id)
     profile = Profile.objects.get(user=profile_object)
     user = profile.user
     userposts = Post.objects.filter(user=user)
     numberOfPosts = len(userposts)
     
-    user = profile.user
-
-    
+    current_user = request.user
+    is_current_user = (current_user == user)
+    is_following_self = current_user == user
+    is_following = FollowersCount.objects.filter(follower=current_user.username, user=user.username).exists()
 
     context = {
         'user': user,
         'profile_object': profile_object,
         'profile': profile,
-        'userposts' : userposts,
+        'userposts': userposts,
         'numberOfPosts': numberOfPosts,
+        'is_following_self': is_following_self,
+        'is_current_user': is_current_user,
+        'is_following': is_following,
     }
     return render(request, 'profile.html', context)
 
@@ -87,11 +91,11 @@ def createProfile(request):
             profilepic = request.FILES['profilePic']
             DOB = request.POST['DOB']
             Profile.objects.create(user=user, name=name, about=about, profilePic=profilepic, DOB=DOB)
-            return redirect(reverse('profile', kwargs={'user': user}))
+            return redirect('profile', user_id=user.id) 
         else:
             return render(request, 'createProfile.html')
     else:
-        return redirect('profile', user=user)
+        return redirect('profile', user_id=user.id) 
 
 
 @login_required(login_url='mylogin')
@@ -115,7 +119,7 @@ def editProfile(request, user):
                 profile.DOB = DOB
 
             profile.save()
-            return redirect('profile', user=user)
+            return redirect('profile', user_id=user.id)
 
         return render(request, 'editProfile.html', {'profile': profile})
 
@@ -153,7 +157,7 @@ def like_post(request):
         post.save()
         return redirect('home')
     
-
+'''
 @login_required(login_url='mylogin')
 def follow(request):
     if request.method == 'POST':
@@ -168,5 +172,21 @@ def follow(request):
             new_follower = FollowersCount.objects.create(follower=follower, user=user)
             new_follower.save()
             return redirect('profile', user=request.user)
+    
     else:
-        return redirect('home')
+        return redirect('home')'''
+
+
+@login_required
+def follow(request, user_id):
+    followed_user = get_object_or_404(User, pk=user_id)
+    if request.user != followed_user:  # Prevent self-following
+        FollowersCount.objects.get_or_create(user=followed_user, follower=request.user)
+    return redirect('profile', user_id=user_id)  # Redirect to the user's profile page
+
+@login_required
+def unfollow(request, user_id):
+    unfollowed_user = get_object_or_404(User, pk=user_id)
+    if request.user != unfollowed_user:  # Prevent self-unfollowing
+        FollowersCount.objects.filter(user=unfollowed_user, follower=request.user).delete()
+    return redirect('profile', user_id=user_id) 

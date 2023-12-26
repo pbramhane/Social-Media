@@ -61,6 +61,21 @@
                                     <a href="/likepost?post_id={{ post.id }}" class="text-white">Like</a>
                                 </button>
                                 <span class="ms-2">Likes: {{ post.no_of_likes }}</span>
+                                <!--
+                                <p>Post User: {{ post.user }}</p>
+                                <p>Logged-in User: {{ user }}</p> 
+                               
+                                    {% if user == post.user %}
+                                        <form method="post" action="{% url 'delete_post' post.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    {% endif %} -->
+                                    
+
+
+
+                                
                             </div>
                         </div>
                     </div>

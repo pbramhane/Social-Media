@@ -165,36 +165,35 @@ def like_post(request):
         post.save()
         return redirect('home')
     
-'''
+
+
 @login_required(login_url='mylogin')
-def follow(request):
-    if request.method == 'POST':
-        follower = request.POST['follower']
-        user = request.POST['user']
-
-        if FollowersCount.objects.filter(follower=follower, user=user).first():
-            delete_follower = FollowersCount.objects.get(follower=follower, user=user)
-            delete_follower.delete()
-            return redirect('profile', user=request.user)
-        else:
-            new_follower = FollowersCount.objects.create(follower=follower, user=user)
-            new_follower.save()
-            return redirect('profile', user=request.user)
-    
-    else:
-        return redirect('home')'''
-
-
-@login_required
 def follow(request, user_id):
     followed_user = get_object_or_404(User, pk=user_id)
-    if request.user != followed_user:  # Prevent self-following
+    if request.user != followed_user:  
         FollowersCount.objects.get_or_create(user=followed_user, follower=request.user)
-    return redirect('profile', user_id=user_id)  # Redirect to the user's profile page
+    return redirect('profile', user_id=user_id)  
 
-@login_required
+
+@login_required(login_url='mylogin')
 def unfollow(request, user_id):
     unfollowed_user = get_object_or_404(User, pk=user_id)
-    if request.user != unfollowed_user:  # Prevent self-unfollowing
-        FollowersCount.objects.filter(user=unfollowed_user, follower=request.user).delete()
+    FollowersCount.objects.filter(user=unfollowed_user, follower=request.user).delete()
     return redirect('profile', user_id=user_id) 
+
+
+
+@login_required(login_url='mylogin')
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    user = request.user
+
+    if request.user == post.user:
+        post.delete()
+    
+    context = {
+        'user': user,
+        'post': post,
+    }
+    
+    return render(request, 'home.html', context)

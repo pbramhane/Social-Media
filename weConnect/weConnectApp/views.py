@@ -39,7 +39,7 @@ def myLogin(request):
 
 @login_required(login_url='mylogin')
 def home(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-created_at')
     users = User.objects.all()
     adminuser = User.objects.filter(is_superuser=False)
     context = {

@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -368,6 +370,7 @@
             border-radius: 3px;
             cursor: pointer;
         }
+        
     </style>
 </head>
 
@@ -429,10 +432,15 @@
             </nav>
         </aside>
         <div class="main">
+            {% if posts %}
             {% for post in posts%}
             <div class="post-container">
                 <div class="post-header">
-                    <img class="user-avatar" src="{{profile.profilePic.url}}" alt="User Avatar">
+                    {% if profile_picture %}
+                        <img src="{{ profile_picture.url }}" alt="Profile Picture" style=" height: 40px; width: 40px; border-radius: 50%; margin-right: 10px;">
+                            {% else %}
+                            <img src="{{ user.profilePic.url }}" alt="profile_pic">
+                            {% endif %}
                     <span class="username">{{post.user}}</span>
                     <span>•</span>
                     <span>{{post.created_at}}</span>
@@ -452,28 +460,65 @@
                 </div>
             </div>
             {% endfor %}
+            {% else %}
+                <h3>Please follow someone to see their posts on home page! </h3>
+                <div class="right-sidebar">
+                    <!--{% if user and user.profile %}
+                    <a href="{% url 'profile' user.id %}">
+                        <img src="{{ user.profilePic.url }}" alt="profile_pic">
+                        <span>{{user}}</span>
+                    </a><br>
+                    {% endif %} -->
+        
+                    {% if profile_picture %}
+                        <img class="postprofilepicture" src="{{ profile_picture.url }}" alt="Profile Picture" >
+                    {% else %}
+                        <img class="postprofilepicture" src="{{ user.profilePic.url }}" alt="profile_pic">
+                    {% endif %}
+        
+                    <div class="suggested-header">Suggested for You</div>
+        
+                    <div class="suggested-list">
+                        {% for user in users %}
+                        <!--{% if not user.is_superuser and user != current_user %}-->
+                        <div class="suggested-item">
+                            <a href="{% url 'profile' user.id %}">
+                                <div class="username">{{ user.username }}</div>
+                            </a>
+                        </div>
+                        <!--{% endif %}-->
+                        {% empty %}
+                        <li>No users found</li>
+                        {% endfor %}
+            {% endif %}  
         </div>
 
-        {% for post in posts %}
+        <!--{% for post in posts %}-->
         <div class="right-sidebar">
-            {% if user and user.profile %}
+            <!--{% if user and user.profile %}
             <a href="{% url 'profile' user.id %}">
-                <img src="{{ profile.profilePic.url }}" alt="profile_pic">
+                <img src="{{ user.profilePic.url }}" alt="profile_pic">
                 <span>{{user}}</span>
             </a><br>
+            {% endif %} -->
+
+            {% if profile_picture %}
+                <img class="postprofilepicture" src="{{ profile_picture.url }}" alt="Profile Picture" >
+            {% else %}
+            <img class="postprofilepicture" src="{{ user.profilePic.url }}" alt="profile_pic">
             {% endif %}
 
             <div class="suggested-header">Suggested for You</div>
 
             <div class="suggested-list">
                 {% for user in users %}
-                {% if not user.is_superuser %}
+                <!--{% if not user.is_superuser and user != current_user %}-->
                 <div class="suggested-item">
                     <a href="{% url 'profile' user.id %}">
                         <div class="username">{{ user.username }}</div>
                     </a>
                 </div>
-                {% endif %}
+                <!--{% endif %}-->
                 {% empty %}
                 <li>No users found</li>
                 {% endfor %}
@@ -481,45 +526,7 @@
                 <!-- Add more suggested items as needed -->
             </div>
 
-            <div class="col-md-8 p-4">
-                {% if posts %}
-                {% for post in posts %}
-                    <div class="card mb-4 post-container">
-                        <div class="card-body">
-                            <h5 class="card-title">Username: {{ post.user }}</h5>
-                            <p class="card-text">Date Added: {{ post.created_at }}</p>
-                            <p class="card-text">Caption: {{ post.caption }}</p>
-                            <img class="post-image" src="{{ post.image.url }}" alt="Post Image">
-                            <div class="mt-3">
-                                <button class="btn btn-primary like-button">
-                                    <a href="/likepost?post_id={{ post.id }}" class="text-white">Like</a>
-                                </button>
-                                <span class="ms-2">Likes: {{ post.no_of_likes }}</span>
-                {% endfor %}    
-                {% else %}
-                <h3>Please follow someone to see their posts on home page!</h3>  
-                {% endif %}          
-
-                                <!--
-                                <p>Post User: {{ post.user }}</p>
-                                <p>Logged-in User: {{ user }}</p> 
-                               
-                                    {% if user == post.user %}
-                                        <form method="post" action="{% url 'delete_post' post.id %}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
-                                    {% endif %} -->
-                                    
-
-
-
-                                
-                            </div>
-                        </div>
-                    </div>
-                
-            </div>
+            
             <footer>
                 <p>&copy; 2023 weConnect</p>
             </footer>

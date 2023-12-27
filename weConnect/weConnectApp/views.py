@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile, Post, LikePost, FollowersCount
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 
@@ -47,15 +48,29 @@ def myLogin(request):
 def home(request):
     followers = FollowersCount.objects.filter(follower=request.user)
     followed_users = [follower.user for follower in followers]
+    followed_users.append(request.user)
 
-    posts = Post.objects.filter(user__in=followed_users)
+    posts = Post.objects.filter(user__in=followed_users).order_by('-created_at')
     #posts = Post.objects.all().order_by('-created_at')
     users = User.objects.all()
+    #print(users)
+    #users = User.objects.exclude(is_superuser=True).exclude(pk=request.user.pk)
     adminuser = User.objects.filter(is_superuser=False)
+    current_user = request.user
+
+    try:
+        user_profile = Profile.objects.get(user=request.user)
+        profile_picture = user_profile.profilePic
+    except ObjectDoesNotExist:
+        profile_picture = 'Social-Media\weConnect\static\admin\img\cat3.jpeg'
+
+    print(current_user)
     context = {
         "posts": posts,
         "users": users,
         "adminuser": adminuser,
+        'current_user': current_user,
+        "profile_picture": profile_picture,
     }
 
     return render(request, "home.html", context)

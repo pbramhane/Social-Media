@@ -7,23 +7,45 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Additional custom styles for the form */
-        body {
+        h2 {
+            background: linear-gradient(150deg, rgba(93,12,27,0.9) 0%, rgba(38,23,78,0.9) 50%, rgba(0,5,93,0.9) 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent;
+            width: max-content;
+        }
+        body { 
             padding-top: 20px;
-            background-color: #000;
-            color: #fff;
+            background: rgb(2,0,39);
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(93,12,27,0.6) 0%, rgba(38,23,78,0.6) 30%, rgba(0,5,93,0.6)100%) !important;
         }
 
         .form-container {
             max-width: 600px;
             margin: 0 auto;
-            border: 1px solid #7e7e7e;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px 5px rgba(255, 255, 255, 0.3), 0px 6px 20px 0 rgba(255, 255, 255, 0.19);
+            border-radius: 4px;
+            background: #fffffff5;
+            box-shadow: 0 5px 20px 5px rgba(0,0,0, 0.3), 0px 6px 20px 0 rgba(0,0,0, 0.19);
         }
 
         .form-group {
             margin-bottom: 20px;
+        }
+        .btn.btn-primary {
+            background: #5a2d95;
+            border-color: #5a2d95;
+            min-width: 120px;
+        }
+        .btn.btn-primary:hover {
+            background: #3f2560;
+            border-color: #3f2560;
+        }
+        .form-control{
+            border-color: #7191b1;
+        }
+        label {
+            font-weight: 500;
         }
     </style>
 </head>
@@ -31,6 +53,7 @@
 <body>
     <div class="container form-container">
         <h2>Edit Profile</h2>
+        <br/>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -54,9 +77,13 @@
                 <label for="DOB" class="form-label">Date of Birth:</label>
                 <input type="date" id="DOB" name="DOB" value="{{ profile.DOB }}" class="form-control">
             </div>
+            <br/>
+                <button type="submit" class="btn btn-primary">Save</button>
+        
 
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+            
+                <br/>
+                <br/></form>
     </div>
 
     <!-- Bootstrap JavaScript Bundle with Popper -->

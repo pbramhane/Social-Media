@@ -356,9 +356,10 @@
                         <a href="{% url 'unfollow' profile_object.pk %}" class="btn btn-danger">Unfollow</a>
                         {% endif %}
                         {% endif %}
-                        
+                        {% if is_current_user %}
                         <a href="{% url 'editprofile' user.profile.user %}" class="btn btn-dark editprofile">Edit
                             Profile</a>
+                        {% endif %}
                     </div>
                     <div class="profile-bio">Name: {{ profile.name }}</div>
                     <div class="profile-bio">About: {{ profile.about }}</div>

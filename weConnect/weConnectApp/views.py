@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from .forms import CreateUserForm, LoginForm
 from django.contrib.auth.models import auth
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Post, LikePost, FollowersCount
@@ -16,6 +17,7 @@ def register(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request,"User Created Successfully")
             return redirect("mylogin")
 
     context = {"registerform": form}
@@ -33,6 +35,7 @@ def myLogin(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 auth.login(request, user)
+                messages.success(request,"User login successfully")
                 return redirect("home")
 
     context = {"loginform": form}

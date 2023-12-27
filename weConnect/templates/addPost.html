@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Add Post</title>
@@ -8,30 +9,41 @@
         /* Additional custom styles for the form */
         body {
             padding-top: 50px;
+            background-color: black;
+            color: #fff;
         }
+
         .form-container {
             max-width: 600px;
             margin: 0 auto;
+            border: 1px solid #7e7e7e;
+            padding: 20px;
+            border-radius: 10px;
+            /* box-shadow: 1px 2px 5px 5px lightblue; */
+            box-shadow: 0 5px 20px 5px rgba(255, 255, 255, 0.3), 0px 6px 20px 0 rgba(255, 255, 255, 0.19);
         }
+
         .form-group {
             margin-bottom: 20px;
         }
     </style>
 </head>
+
 <body>
     <div class="container form-container">
-        <h1>Add Post</h1>
+        <h2>Add Post</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
             <div class="form-group">
                 <label for="image" class="form-label">Image:</label>
-                <input type="file" id="image" name="image" class="form-control">
+                <input type="file" id="image" name="image" class="form-control" accept="image/*">
             </div>
 
-            <div class="form-group">
+            <div class=" form-group">
                 <label for="caption" class="form-label">Caption:</label>
-                <textarea id="caption" name="caption" rows="4" cols="50" class="form-control"></textarea>
+                <textarea id="caption" name="caption" rows="4" cols="50" class="form-control"
+                    placeholder="Write a caption..."></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">Add Post</button>
@@ -40,8 +52,9 @@
         <br>
         <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
     </div>
-    
+
     <!-- Bootstrap JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

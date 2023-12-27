@@ -49,6 +49,7 @@
             </div>
 
             <div class="col-md-8 p-4">
+                {% if posts %}
                 {% for post in posts %}
                     <div class="card mb-4 post-container">
                         <div class="card-body">
@@ -61,6 +62,11 @@
                                     <a href="/likepost?post_id={{ post.id }}" class="text-white">Like</a>
                                 </button>
                                 <span class="ms-2">Likes: {{ post.no_of_likes }}</span>
+                {% endfor %}    
+                {% else %}
+                <h3>Please follow someone to see their posts on home page!</h3>  
+                {% endif %}          
+
                                 <!--
                                 <p>Post User: {{ post.user }}</p>
                                 <p>Logged-in User: {{ user }}</p> 
@@ -79,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                {% endfor %}
+                
             </div>
         </div>
     </div>

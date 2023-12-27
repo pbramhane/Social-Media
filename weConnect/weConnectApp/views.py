@@ -39,7 +39,11 @@ def myLogin(request):
 
 @login_required(login_url='mylogin')
 def home(request):
-    posts = Post.objects.all().order_by('-created_at')
+    followers = FollowersCount.objects.filter(follower=request.user)
+    followed_users = [follower.user for follower in followers]
+
+    posts = Post.objects.filter(user__in=followed_users)
+    #posts = Post.objects.all().order_by('-created_at')
     users = User.objects.all()
     adminuser = User.objects.filter(is_superuser=False)
     context = {
@@ -66,6 +70,7 @@ def profile(request, user_id):
     numberOfPosts = len(userposts)
     followers_count = FollowersCount.objects.filter(user=profile_object).count()
     following_count = FollowersCount.objects.filter(follower=profile_object).count()
+
     
     current_user = request.user
     is_current_user = (current_user == user)
@@ -83,6 +88,7 @@ def profile(request, user_id):
         'is_following': is_following,
         'followers_count': followers_count,
         'following_count': following_count,
+        
     }
     return render(request, 'profile.html', context)
 

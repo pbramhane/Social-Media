@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +16,7 @@
 
         .form-container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 30px auto 0;
             border: 1px solid #7e7e7e;
             padding: 20px;
             border-radius: 10px;
@@ -26,12 +27,58 @@
         .form-group {
             margin-bottom: 20px;
         }
+        h2 {
+            background: linear-gradient(150deg, rgb(156 93 95) 0%, rgb(148 92 149) 50%, rgb(80 79 143) 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent;
+            width: max-content;
+        }
+        body { 
+            padding-top: 20px;
+            background: rgb(2,0,39);
+            min-height: 100vh;
+            color: #212529;
+            background: linear-gradient(135deg, rgb(93 12 12 / 50%) 0%, rgb(137 22 101 / 42%) 30%, rgb(0 5 93 / 50%)100%) !important;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 4px;
+            background: #fffffff5;
+            box-shadow: 0 5px 20px 5px rgba(0,0,0, 0.3), 0px 6px 20px 0 rgba(0,0,0, 0.19);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn.btn-primary {
+            background: #5a2d95;
+            border-color: #5a2d95;
+            min-width: 120px;
+        }
+        .btn.btn-primary:hover {
+            background: #3f2560;
+            border-color: #3f2560;
+        }
+        .form-control{
+            border-color: #7191b1;
+        }
+        label {
+            font-weight: 500;
+        }
     </style>
 </head>
 
 <body>
+    <h3 class="ms-4">
+        <a href="{% url 'home' %}" class="text-white text-decoration-none">WeConnect</a>
+    </h3>
     <div class="container form-container">
         <h2>Add Post</h2>
+
+        <br>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -46,11 +93,12 @@
                     placeholder="Write a caption..."></textarea>
             </div>
 
+            <br>
+
             <button type="submit" class="btn btn-primary">Add Post</button>
         </form>
 
         <br>
-        <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
     </div>
 
     <!-- Bootstrap JavaScript Bundle with Popper -->

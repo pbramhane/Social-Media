@@ -8,7 +8,7 @@
     <style>
         /* Additional custom styles for the form */
         h2 {
-            background: linear-gradient(150deg, rgba(93,12,27,0.9) 0%, rgba(38,23,78,0.9) 50%, rgba(0,5,93,0.9) 100%) !important;
+            background: linear-gradient(150deg, rgb(156 93 95) 0%, rgb(148 92 149) 50%, rgb(80 79 143) 100%) !important;
             -webkit-background-clip: text !important;
             -webkit-text-fill-color: transparent;
             width: max-content;
@@ -17,12 +17,12 @@
             padding-top: 20px;
             background: rgb(2,0,39);
             min-height: 100vh;
-            background: linear-gradient(135deg, rgba(93,12,27,0.6) 0%, rgba(38,23,78,0.6) 30%, rgba(0,5,93,0.6)100%) !important;
+            background: linear-gradient(135deg, rgb(93 12 12 / 50%) 0%, rgb(137 22 101 / 42%) 30%, rgb(0 5 93 / 50%)100%) !important;
         }
 
         .form-container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 10px auto 0;
             padding: 20px;
             border-radius: 4px;
             background: #fffffff5;
@@ -51,6 +51,9 @@
 </head>
 
 <body>
+    <h3 class="ms-4">
+        <a href="{% url 'home' %}" class="text-white text-decoration-none">WeConnect</a>
+    </h3>
     <div class="container form-container">
         <h2>Edit Profile</h2>
         <br/>

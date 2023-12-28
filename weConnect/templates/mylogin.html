@@ -11,6 +11,7 @@
         body {
             padding-top: 50px;
             color: white;
+            background-color: black;
         }
 
         .form-container {
@@ -27,7 +28,7 @@
 <body>
     <div class="container form-container">
         <h1>Login</h1>
-        <div class="form-floating mb-3">
+        
             <form action="" method="post" class="form-control">
                 {% csrf_token %}
                 {{ loginform.as_p }}

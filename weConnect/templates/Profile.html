@@ -291,6 +291,15 @@
         .more-options-content.show {
             display: block;
         }
+
+        .search-form {
+            display: none;
+        }
+
+        .search-form.active {
+            display: block;
+        }
+
     </style>
 </head>
 
@@ -308,12 +317,25 @@
                         <span>Home</span>
                     </span>
                 </a>
-                <a>
+                <a href="#" onclick="toggleSearchForm()">
                     <span>
                         <i class="uil uil-search"></i>
                         <span>Search</span>
                     </span>
                 </a>
+
+                <form action="{% url 'search' %}" method="GET" class="navbar-form search-form">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search"
+                            value="{{ request.GET.q }}">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default">
+                                <i class="uil uil-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
                 <a>
                     <span>
                         <i class="uil uil-heart"></i>
@@ -356,8 +378,10 @@
                         <a href="{% url 'unfollow' profile_object.pk %}" class="btn btn-danger">Unfollow</a>
                         {% endif %}
                         {% endif %}
+                        {% if is_current_user %}
                         <a href="{% url 'editprofile' user.profile.user %}" class="btn btn-dark editprofile">Edit
                             Profile</a>
+                        {% endif %}
                     </div>
                     <div class="profile-bio">Name: {{ profile.name }}</div>
                     <div class="profile-bio">About: {{ profile.about }}</div>
@@ -390,6 +414,12 @@
             </div>
         </div>
     </div>
+    <script>
+        function toggleSearchForm() {
+            var searchForm = document.querySelector('.search-form');
+            searchForm.classList.toggle('active');
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

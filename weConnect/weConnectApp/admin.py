@@ -7,7 +7,7 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'name', 'about')
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('caption',)
+    list_display = ('caption', 'user')
 
 class LikePostAdmin(admin.ModelAdmin):
    list_display = ('post_id', 'username')

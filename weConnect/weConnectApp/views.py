@@ -8,6 +8,7 @@ from .models import Profile, Post, LikePost, FollowersCount
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 # Create your views here.
 
@@ -71,6 +72,7 @@ def home(request):
         "adminuser": adminuser,
         'current_user': current_user,
         "profile_picture": profile_picture,
+        'followed_users': followed_users,
     }
 
     return render(request, "home.html", context)
@@ -231,3 +233,18 @@ def delete_post(request, post_id):
     }
     
     return render(request, 'home.html', context)
+
+
+def search(request):
+    query = request.GET.get(
+        "q", ""
+    )  # Get the 'q' parameter from the request, default to an empty string if not present
+
+    # Perform a case-insensitive search on the post captions
+    results = Post.objects.filter(Q(caption__icontains=query))
+
+    context = {
+        "query": query,
+        "results": results,
+    }
+    return render(request, "search.html", context)

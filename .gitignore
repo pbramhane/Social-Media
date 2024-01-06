@@ -1,0 +1,7 @@
+./env/
+./weConnect/weConnect/__pycache__
+./weConnect/weConnectApp/__pycache__
+
+*.pyc
+*.cpython-310.pyc
+
